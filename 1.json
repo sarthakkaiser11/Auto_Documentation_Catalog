@@ -1,0 +1,1142 @@
+[
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "claims_summaries",
+    "table": {
+      "table_name": "patient_lot",
+      "table_description": "This table, `patient_lot`, provides a comprehensive, summarized view of a patient's treatment journey, organized by their different **\"lines of therapy\"** or sequential treatment plans.\n\nEach row represents a distinct phase or \"line\" of treatment a patient has undergone, compiled from healthcare claims data. It includes essential demographic information (like **age** and **gender**), details about the specific **treatment regimen** being used (e.g., its name, start and end dates), and whether that line of therapy is currently **active**.\n\nFurthermore, it aggregates critical metrics that paint a picture of the treatment experience:\n*   The total number of **unique claims** and **providers** associated with that specific line of therapy.\n*   The diversity of **unique regimens** and **products** used by the patient.\n*   Indicators of treatment adherence and intensity, such as **average days' supply** for medications and the **number of unique months** in treatment.\n*   Identification of the **most frequently used product** within a treatment line.\n\n**In essence, this table allows users to understand:**\n*   How patients progress through different stages of treatment.\n*   The specific therapies they receive and for how long.\n*   The scope of their healthcare engagement (e.g., how many providers, claims, or products are involved).\n*   Key trends in treatment patterns and drug utilization.\n\nIt is a crucial resource for analyzing patient lifecycles, understanding treatment effectiveness, and gaining insights into patient care management.",
+      "columns": [
+        {
+          "column_name": "PATIENT_ID",
+          "data_type": "STRING",
+          "description": "**Meaning:** A unique identifier assigned to an individual patient within the claims summaries data. It serves to link all associated medical claims and services to that specific person.\n\n**Expected Format:** A string value, typically alphanumeric (e.g., `P12345`, `ABC-9876`), though it can also be purely numeric. It is usually system-generated or assigned by the healthcare provider/payer and is expected to be unique for each patient entry."
+        },
+        {
+          "column_name": "PAT_AGE",
+          "data_type": "STRING",
+          "description": "This column stores the patient's age in whole years. It is expected to contain a positive integer value, though it is stored as a string. Non-numeric characters are unexpected, and it may be null if the age is unknown."
+        },
+        {
+          "column_name": "GENDER_DESC",
+          "data_type": "STRING",
+          "description": "This column stores the reported or identified gender of the patient. It is a string field containing descriptive terms, such as 'Male', 'Female', 'Unknown', or 'Not Specified'."
+        },
+        {
+          "column_name": "LINE_NO",
+          "data_type": "STRING",
+          "description": "**Meaning:** A sequential identifier for a specific line item within a patient lot on a claim summary. It helps organize and reference individual entries.\n\n**Expected Format:** A string representing a numeric sequence (e.g., '1', '2', '3', '001'), typically an integer."
+        },
+        {
+          "column_name": "REGIMEN_NAME",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column stores the name or identifier of the specific medical treatment plan, therapeutic regimen, or protocol prescribed to the patient.\n\n**Expected Format:** A descriptive string containing alphanumeric characters, spaces, and potentially punctuation (e.g., 'Chemotherapy Cycle A', 'Insulin Management Plan', 'Physical Therapy Protocol X')."
+        },
+        {
+          "column_name": "LINE_START",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LINE_END",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "IS_ACTIVE",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "CURRENT_LOT",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LATEST_LOT",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_CLAIM_COUNTS",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_PROVIDERS_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_REGIMEN_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_PRODUCT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "AVG_DAYS_SUPPLY_UPD",
+          "data_type": "DOUBLE",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "NO_OF_UNIQ_MONTHS",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_USED_PROD",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_USED_PROD_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "IS_NEW",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "claims_summaries",
+    "table": {
+      "table_name": "patient_provider",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "PATIENT_ID",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "PAT_AGE",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "GENDER_DESC",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "PROVIDER_ID",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "NPI",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "PRI_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "SEC_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "ZIPCODE",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "STATE_CD",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "STATE_DESC",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "No_of_Claims",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "FIRST_SERVICE_DATE",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LATEST_SERVICE_DATE",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "FIRST_LINE_START",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LAST_LINE_END",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LINES_CONTRIBUTING",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "COUNT_MONTHS",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_DRUGS_WITH_NPI",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_FINAL_REGIMEN_NAME_WITH_NPI",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRES_REGIMEN",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRES_REGIMEN_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRES_PRODUCT",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRES_PRODUCT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "TREATMENT_INITIATION_FLAG",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "IS_LATEST_LOT_FLAG",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "claims_summaries",
+    "table": {
+      "table_name": "provider",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "PROVIDER_ID",
+          "data_type": "STRING",
+          "description": "This column uniquely identifies the healthcare provider (e.g., doctor, clinic, hospital) associated with a claim. It is a string data type, typically an alphanumeric code, ensuring consistent and distinct referencing of providers within the system."
+        },
+        {
+          "column_name": "NPI",
+          "data_type": "STRING",
+          "description": "**Meaning:** The National Provider Identifier (NPI) is a unique, 10-digit identification number assigned to healthcare providers (individuals and organizations) in the United States. It serves as a standard identifier in all HIPAA-standard transactions, such as claims processing, to identify the specific provider of services.\n\n**Expected Format:** A 10-digit numeric string (e.g., \"1234567890\"). No letters, special characters, or spaces."
+        },
+        {
+          "column_name": "PRI_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column identifies the descriptive name of the healthcare provider's primary medical specialty or area of practice (e.g., Cardiology, Pediatrics, General Practice) associated with the claim.\n\n**Expected Format:** A `STRING` containing a human-readable text description of the specialty. Values are typically standardized for consistency across the system."
+        },
+        {
+          "column_name": "SEC_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column describes a healthcare provider's **secondary medical specialty**, identifying an additional area of medical expertise or qualification held by the provider beyond their primary field.\n\n**Expected Format:** A descriptive text string (e.g., 'Internal Medicine', 'Cardiology', 'Family Practice') using standard medical terminology."
+        },
+        {
+          "column_name": "ZIPCODE",
+          "data_type": "STRING",
+          "description": "The `ZIPCODE` column identifies the primary postal code of the healthcare provider associated with the claim summary.\n\n**Expected Format:** A `STRING` representing a U.S. ZIP code, typically either 5 digits (e.g., '90210') or 9 digits including a hyphen (e.g., '90210-1234'). It may be null if unavailable."
+        },
+        {
+          "column_name": "STATE_CD",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column identifies the U.S. state where the healthcare provider (e.g., hospital, clinic, physician) associated with the claim summary is located or primarily operates.\n\n**Expected Format:** A two-character uppercase string representing the standard U.S. postal abbreviation for the state (e.g., 'CA', 'NY', 'TX')."
+        },
+        {
+          "column_name": "STATE_DESC",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "TOTAL_DIAGNOSED_PATIENTS",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "UNIQ_LINES_CONTRIBUTING",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_PRODUCT",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_PRODUCT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_PRODUCT_PATIENT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_PRODUCT",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_PRODUCT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_PRODUCT_PATEINT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_REGIMEN",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_REGIMEN_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_REGIMEN_PATIENT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_REGIMEN",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_REGIMEN_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_REGIMEN_PATEINT_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_CONTRIBUTING_LINE",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MCL_CLAIMS_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LEAST_CONTRIBUTING_LINE",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "LCL_CLAIMS_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "NO_OF_PATIENTS_START",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRES_START_PROD",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "MOST_PRES_START_PROD_COUNT",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "combined_schema",
+    "table": {
+      "table_name": "hcp_trial_count",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "npi",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "tot_trials",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "completed_trials",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "active_trials",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "other_trials",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "combined_schema",
+    "table": {
+      "table_name": "hcp_twitter_data",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "npi",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "url",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "followers",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "following",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "date",
+          "data_type": "DATE",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "twitter_handle_name",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "twitter_name",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "description",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "text",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "tweet_link",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "number_of_likes",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "number_of_retweets",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "status",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "month",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "year",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "HCP_name",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "provider_city",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "provider_state",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "followers_max",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "interests_of_hcp",
+          "data_type": "ARRAY",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "tweet_topics",
+          "data_type": "ARRAY",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "ct_schema",
+    "table": {
+      "table_name": "ct_table",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "nct_number",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "recruitment_status",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_type",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_phase",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "actual_enrollment",
+          "data_type": "DOUBLE",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "official_title",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "url",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "condition",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "intervention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "current_study_sponsor",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "accepts_healthy_volunteers",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "actual_study_start_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "biospecimen",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_start_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "actual_primary_completion_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "actual_study_completion_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "estimated_primary_completion_date",
+          "data_type": "STRING",
+          "description": "This column stores the projected date for the completion of a primary phase, milestone, or the initial overall completion of a particular project or item. It is stored as a string, typically in 'YYYY-MM-DD' format."
+        },
+        {
+          "column_name": "estimated_study_completion_date",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column captures the *projected* calendar date for the completion of a specific study. It serves as an estimate for planning and tracking study timelines and is subject to change.\n\n**Expected Format:** A string representing the date in 'YYYY-MM-DD' format (e.g., '2025-12-31')."
+        },
+        {
+          "column_name": "ages",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column stores the age of the primary entity associated with the record, typically expressed in years.\n\n**Expected Format:** It is a `STRING` and is expected to primarily contain numeric values (e.g., '25', '60'). However, it may also include descriptive text or ranges (e.g., 'Under 18', '25-34', 'Unknown') where a precise numerical age is not available or applicable."
+        },
+        {
+          "column_name": "brief_summary",
+          "data_type": "STRING",
+          "description": "This column holds a **concise textual summary of a chatbot interaction or its primary topic.** Its purpose is to provide a quick, high-level understanding of the conversation's core subject or outcome.\n\n**Expected Format:** A `STRING` data type, typically a single sentence or a few descriptive phrases. It should be human-readable and avoid excessive detail."
+        },
+        {
+          "column_name": "brief_title",
+          "data_type": "STRING",
+          "description": "**Meaning:** This column contains a concise, human-readable title or label that succinctly summarizes the primary subject or purpose of each record in the table.\n\n**Expected Format:** A short string of text, typically limited to one or two lines, designed for quick comprehension and suitable for display in lists, headers, or brief summaries."
+        },
+        {
+          "column_name": "collaborators",
+          "data_type": "STRING",
+          "description": "Identifies the individuals or teams responsible for contributing to or managing the chatbot. Stored as a string, typically a comma-separated list of names or identifiers."
+        },
+        {
+          "column_name": "contacts",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "current_responsible_party",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "current_primary_outcome_measures",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "current_secondary_outcome_measures",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "detailed_description",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "eligibility_criteria",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "estimated_enrollment",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "first_posted_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "first_submitted_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "has_data_monitoring_committee",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "investigators",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "ipd_sharing_statement",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "last_update_posted_dated",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "listed_location_countries",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "other_study_id_numbers",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "primary_completion_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "removed_location_countries",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "sampling_method",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "sex_gender",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_arms",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_completion_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_design",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_groups_cohorts",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "study_population",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "publications",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "target_follow_up_duration",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "us_fda_regulated_product",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "verification_date",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "investigators_record_history",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "batch_id",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "ct_schema",
+    "table": {
+      "table_name": "hcp_summary",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "npi",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "full_name",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "taxonomy_code",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "address_line_1",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "address_line_2",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "provider_city",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "provider_state",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "provider_postal_code",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "lymphomahub_tot_mention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "targetedonc_tot_mention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "vjhemonc_tot_mention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "cancernetwork_tot_mention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "onclive_tot_mention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "tot_mention",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "total_tweets",
+          "data_type": "FLOAT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "general_payment",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "research_payment",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "total_payment",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "total_claim_count",
+          "data_type": "FLOAT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "total_treated_count",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "total_clinical_trials",
+          "data_type": "FLOAT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "healthcare_provider_taxonomy_code_1",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "specialty_1",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "healthcare_provider_taxonomy_code_2",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "specialty_2",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "healthcare_provider_taxonomy_code_3",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "specialty_3",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "healthcare_provider_taxonomy_code_4",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "specialty_4",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "healthcare_provider_taxonomy_code_5",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "specialty_5",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "sm_index",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "treatment_index",
+          "data_type": "INT",
+          "description": "**Meaning:** This column provides a unique index or sequential identifier for a specific treatment associated with the Healthcare Professional (HCP) within the context of this summary record. It helps to differentiate or order multiple treatments referenced for an HCP.\n\n**Expected Format:** A non-decimal whole number (integer)."
+        },
+        {
+          "column_name": "gm_index",
+          "data_type": "INT",
+          "description": "**gm_index:** A numerical index representing an HCP's relevance, influence, or performance within a defined market segment (e.g., Geographic Market Index, General Market Index). It is an integer, typically a positive whole number, used for ranking or categorizing HCPs based on market metrics."
+        },
+        {
+          "column_name": "ct_index",
+          "data_type": "INT",
+          "description": "**Meaning:** `ct_index` is a unique, system-generated identifier for each individual healthcare professional (HCP) summary record within the `hcp_summary` table. It serves as the primary key, ensuring each specific summary entry can be distinctly referenced and tracked.\n\n**Expected Format:** A non-negative whole number (integer). It is typically an auto-incremented value, with no decimals or special characters."
+        },
+        {
+          "column_name": "ind_aff_index",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "research_index",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "kol_index",
+          "data_type": "DOUBLE",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "kol_flag",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "profile_image",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "id",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "group_id",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "batch_id",
+          "data_type": "INT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "tot_publication",
+          "data_type": "FLOAT",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "associated_research_payment",
+          "data_type": "DOUBLE",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "linkedin_url",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "twitter_url",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "doximity_url",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "affiliation_city",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "affiliation_state",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "ct_schema",
+    "table": {
+      "table_name": "test_diag_arv",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "npi",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "diag_code",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "diag_description",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "diag_patients_count",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "diag_claims_count",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "ct_sm_chatbot_auxo",
+    "schema": "ct_schema",
+    "table": {
+      "table_name": "test_drug_arv",
+      "table_description": "Description generation failed",
+      "columns": [
+        {
+          "column_name": "npi",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "drug_code",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "drug_name",
+          "data_type": "STRING",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "drug_patients_count",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        },
+        {
+          "column_name": "drug_claims_count",
+          "data_type": "LONG",
+          "description": "Description generation failed"
+        }
+      ]
+    }
+  }
+]
