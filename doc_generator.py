@@ -152,6 +152,5 @@ def generate_table_desc(table,columns):
         model="gpt-5-mini",
         input=prompt
     )
-    print(response)
 
     return response.output_text
