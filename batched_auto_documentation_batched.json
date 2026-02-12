@@ -1,0 +1,267 @@
+[
+  {
+    "catalog": "intelliegencedatacatalog",
+    "schema": "claims_info",
+    "table": {
+      "table_name": "gold_patient_provider",
+      "table_description": "Patient-provider level summary of claims-derived medication and service activity. Each row represents a de-identified patient linked to a provider and summarizes demographic attributes, provider identifiers and specialties, geographic information, claim counts and service date range, and the most/least prescribed products and regimens observed in the claims dataset. Intended for analytic use such as utilization tracking, provider profiling, cohort selection, and trend analysis.",
+      "columns": [
+        {
+          "column_name": "PATIENT_ID",
+          "data_type": "STRING",
+          "description": "De‑identified unique identifier for the patient within the dataset (string). Used to link records to the same patient while preserving privacy."
+        },
+        {
+          "column_name": "PAT_AGE",
+          "data_type": "STRING",
+          "description": "Patient age as recorded on the claim or in the source system (stored as string). May be an exact age (e.g., \"45\") or an age band; null/unknown values possible."
+        },
+        {
+          "column_name": "GENDER_DESC",
+          "data_type": "STRING",
+          "description": "Patient sex/gender description from the claim (e.g., \"Male\", \"Female\", \"Unknown\", \"Other\")."
+        },
+        {
+          "column_name": "PROVIDER_ID",
+          "data_type": "STRING",
+          "description": "Internal system identifier for the provider associated with the claim (string). Different from the public NPI and used for internal joins and provider-level analytics."
+        },
+        {
+          "column_name": "NPI",
+          "data_type": "STRING",
+          "description": "National Provider Identifier (NPI) for the provider (typically a 10‑digit string). May be null or masked for privacy in some records."
+        },
+        {
+          "column_name": "PRI_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Primary specialty description for the provider (e.g., \"Cardiology\", \"Oncology\")."
+        },
+        {
+          "column_name": "SEC_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Secondary specialty description for the provider, if available."
+        },
+        {
+          "column_name": "ZIPCODE",
+          "data_type": "STRING",
+          "description": "ZIP code associated with the claim (provider or patient ZIP as recorded) stored as a string. May be 5‑digit or ZIP+4 format or partially masked."
+        },
+        {
+          "column_name": "STATE_CD",
+          "data_type": "STRING",
+          "description": "Two‑character state code (US postal abbreviation) corresponding to the ZIP code or claim location (e.g., \"CA\")."
+        },
+        {
+          "column_name": "STATE_DESC",
+          "data_type": "STRING",
+          "description": "Full state name corresponding to STATE_CD (e.g., \"California\")."
+        },
+        {
+          "column_name": "No_of_Claims",
+          "data_type": "LONG",
+          "description": "Total number of claims observed for this patient-provider pair within the reporting period (integer)."
+        },
+        {
+          "column_name": "FIRST_SERVICE_DATE",
+          "data_type": "STRING",
+          "description": "Date of the earliest service for this patient-provider pair within the observation window (string, typically YYYY-MM-DD)."
+        },
+        {
+          "column_name": "LATEST_SERVICE_DATE",
+          "data_type": "STRING",
+          "description": "Date of the most recent service for this patient-provider pair within the observation window (string, typically YYYY-MM-DD)."
+        },
+        {
+          "column_name": "COUNT_MONTHS",
+          "data_type": "LONG",
+          "description": "Number of distinct months in which the patient had service activity with the provider (integer). Serves as a measure of engagement span or persistence."
+        },
+        {
+          "column_name": "MOST_PRES_PRODUCT",
+          "data_type": "STRING",
+          "description": "Name or identifier of the most frequently prescribed product (medication) for this patient-provider pair during the observation period."
+        },
+        {
+          "column_name": "IS_LATEST_LOT_FLAG",
+          "data_type": "INT",
+          "description": "Indicator flag (0/1) denoting whether the record originates from the latest data refresh/lot (1 = latest lot, 0 = prior lot)."
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_PRODUCT",
+          "data_type": "STRING",
+          "description": "Name or identifier of the least frequently prescribed product (medication) for this patient-provider pair during the observation period; may be null if not applicable."
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_REGIMEN",
+          "data_type": "STRING",
+          "description": "Name or descriptor of the least frequently observed treatment regimen associated with this patient-provider pair; may be null if not applicable."
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "intelliegencedatacatalog",
+    "schema": "claims_info",
+    "table": {
+      "table_name": "silver_patient_provider",
+      "table_description": "Patient-provider level claims summary used for analytics and reporting. Each row represents a unique patient and provider pairing and includes patient demographics (age, gender), provider identifiers and specialties, geographic info (ZIP, state), claim activity metrics (total claims, first and latest service dates, active months), the most-prescribed product for that pairing, and a flag indicating whether the record corresponds to the latest lot of data. Intended for business users to analyze utilization patterns, provider relationships, and product prescribing at the patient-provider level. Data is de-identified for privacy.",
+      "columns": [
+        {
+          "column_name": "PATIENT_ID",
+          "data_type": "STRING",
+          "description": "Internal de-identified patient identifier representing a unique patient in the dataset."
+        },
+        {
+          "column_name": "PAT_AGE",
+          "data_type": "STRING",
+          "description": "Patient age or age group at time of service (stored as string). May be a single age or age bucket depending on source."
+        },
+        {
+          "column_name": "GENDER_DESC",
+          "data_type": "STRING",
+          "description": "Patient gender description (e.g., 'Male', 'Female', 'Unknown')."
+        },
+        {
+          "column_name": "PROVIDER_ID",
+          "data_type": "STRING",
+          "description": "Internal provider identifier representing the individual or organization providing care."
+        },
+        {
+          "column_name": "NPI",
+          "data_type": "STRING",
+          "description": "National Provider Identifier (NPI) assigned to the provider; stored as string. May be null for non-registered providers."
+        },
+        {
+          "column_name": "PRI_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Primary specialty description for the provider (e.g., 'Cardiology')."
+        },
+        {
+          "column_name": "SEC_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Secondary specialty description for the provider, if available."
+        },
+        {
+          "column_name": "ZIPCODE",
+          "data_type": "STRING",
+          "description": "Patient or provider ZIP code (as stored in source). May be partial or masked for privacy."
+        },
+        {
+          "column_name": "STATE_CD",
+          "data_type": "STRING",
+          "description": "State code (abbreviation) associated with the ZIP code or service location (e.g., 'CA')."
+        },
+        {
+          "column_name": "STATE_DESC",
+          "data_type": "STRING",
+          "description": "Full state name corresponding to STATE_CD (e.g., 'California')."
+        },
+        {
+          "column_name": "No_of_Claims",
+          "data_type": "LONG",
+          "description": "Total number of claims recorded for this patient-provider pair within the reporting period."
+        },
+        {
+          "column_name": "FIRST_SERVICE_DATE",
+          "data_type": "STRING",
+          "description": "Date of the earliest service included in these claims for the patient-provider pair (stored as string, typically ISO format YYYY-MM-DD)."
+        },
+        {
+          "column_name": "LATEST_SERVICE_DATE",
+          "data_type": "STRING",
+          "description": "Date of the most recent service included in these claims for the patient-provider pair (stored as string, typically ISO format YYYY-MM-DD)."
+        },
+        {
+          "column_name": "COUNT_MONTHS",
+          "data_type": "LONG",
+          "description": "Number of distinct months in which this patient-provider pair had service activity."
+        },
+        {
+          "column_name": "MOST_PRES_PRODUCT",
+          "data_type": "STRING",
+          "description": "Most-prescribed product or medication for this patient-provider pair (name or code depending on source)."
+        },
+        {
+          "column_name": "IS_LATEST_LOT_FLAG",
+          "data_type": "INT",
+          "description": "Indicator (1 = record is from the latest data lot; 0 = not latest) used to identify the most recent ingestion/refresh of this dataset."
+        }
+      ]
+    }
+  },
+  {
+    "catalog": "intelliegencedatacatalog",
+    "schema": "claims_info",
+    "table": {
+      "table_name": "silver_provider",
+      "table_description": "Provider-level summary of claims activity and prescribing behavior. Each row represents a single provider and includes identifiers (internal provider ID and NPI), specialty and location attributes, aggregated patient and claim-line counts, and the most- and least-prescribed products and regimens observed in the underlying claims data.",
+      "columns": [
+        {
+          "column_name": "PROVIDER_ID",
+          "data_type": "STRING",
+          "description": "Internal unique identifier for the provider within the analytics/catalog system. Used to join provider-level aggregates to other internal tables."
+        },
+        {
+          "column_name": "NPI",
+          "data_type": "STRING",
+          "description": "National Provider Identifier reported on claims for the provider (standard 10-digit NPI)."
+        },
+        {
+          "column_name": "PRI_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Text description of the provider's primary specialty (e.g., Oncology, Cardiology) as recorded in source data."
+        },
+        {
+          "column_name": "SEC_SPECIALTY_DESC",
+          "data_type": "STRING",
+          "description": "Text description of the provider's secondary specialty, if available; null or empty when no secondary specialty is recorded."
+        },
+        {
+          "column_name": "ZIPCODE",
+          "data_type": "STRING",
+          "description": "Provider postal ZIP code (typically 5-digit; may include 9-digit formats). Represents the provider's practice location."
+        },
+        {
+          "column_name": "STATE_CD",
+          "data_type": "STRING",
+          "description": "Two-letter U.S. state code corresponding to the provider's practice location (e.g., CA, NY)."
+        },
+        {
+          "column_name": "STATE_DESC",
+          "data_type": "STRING",
+          "description": "Full state name corresponding to STATE_CD (e.g., California, New York)."
+        },
+        {
+          "column_name": "TOTAL_DIAGNOSED_PATIENTS",
+          "data_type": "LONG",
+          "description": "Count of unique patients diagnosed by the provider for the condition(s) tracked in this dataset during the reporting period. This is a distinct patient count, not claim count."
+        },
+        {
+          "column_name": "UNIQ_LINES_CONTRIBUTING",
+          "data_type": "LONG",
+          "description": "Number of unique claim lines (service/product line items) that contributed to the provider's aggregated metrics. Reflects claim-line-level volume rather than distinct patients."
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_PRODUCT",
+          "data_type": "STRING",
+          "description": "Name or code of the product (drug) most frequently prescribed by the provider in the reporting period. If multiple products tie, the chosen value may be arbitrary."
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_PRODUCT",
+          "data_type": "STRING",
+          "description": "Name or code of the product (drug) least frequently prescribed by the provider among tracked products. May be null or empty if insufficient data."
+        },
+        {
+          "column_name": "MOST_PRESCRIBED_REGIMEN",
+          "data_type": "STRING",
+          "description": "Most commonly prescribed regimen (single agent or combination) by the provider during the reporting period. Regimen format follows the conventions used in the source claims processing."
+        },
+        {
+          "column_name": "LEAST_PRESCRIBED_REGIMEN",
+          "data_type": "STRING",
+          "description": "Least commonly prescribed regimen by the provider among tracked regimens. May be null or empty when data are insufficient or no regimens meet reporting thresholds."
+        }
+      ]
+    }
+  }
+]
