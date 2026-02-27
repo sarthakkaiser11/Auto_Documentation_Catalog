@@ -1,0 +1,234 @@
+<!-- 3.0 (with download JSON button) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Metadata Documentation Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #08090c;
+      --surface:   #0f1117;
+      --border:    #1c1f2b;
+      --border-hi: #2d3250;
+      --accent:    #4f8ef7;
+      --accent2:   #7c6af8;
+      --text:      #e8eaf2;
+      --muted:     #5a5f78;
+      --success:   #34d399;
+      --error:     #f87171;
+      --grid-opacity: 0.35;
+    }
+
+    :root[data-theme="light"] {
+      --bg:        #f0f4ff;
+      --surface:   #ffffff;
+      --border:    #dde3f0;
+      --border-hi: #c5cfe8;
+      --accent:    #3b82f6;
+      --accent2:   #6d5ef5;
+      --text:      #1a1d2e;
+      --muted:     #8891b0;
+      --grid-opacity: 0.18;
+    }
+
+    *, *::before, *::after { transition: background-color 0.3s, border-color 0.3s, color 0.3s; box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+    }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px; opacity: var(--grid-opacity); z-index: 0; pointer-events: none;
+    }
+
+    .wrapper { position: relative; z-index: 1; width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+
+    .header { display: flex; align-items: center; gap: 14px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .header-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .header-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+    .header-right { margin-left: auto; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px;}
+    .card-header { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); }
+    .card-body { padding: 22px; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    input { background: var(--bg); border: 1px solid var(--border-hi); border-radius: 8px; color: var(--text); padding: 10px 13px; width: 100%; outline: none; }
+    
+    .btn { font-family: 'Syne', sans-serif; font-weight: 700; padding: 11px 24px; border-radius: 8px; cursor: pointer; border: none; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+
+    /* View Toggle and Action Buttons */
+    .view-controls { display: none; gap: 12px; align-items: center; }
+    .view-toggle { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; padding: 3px; }
+    .vt-btn { font-size: 10px; font-family: 'Syne', sans-serif; font-weight: 600; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; background: transparent; color: var(--muted); }
+    .vt-btn.active { background: var(--border-hi); color: var(--text); }
+    
+    .action-btn { font-family: 'DM Mono', monospace; font-size: 10px; padding: 5px 12px; border-radius: 6px; background: transparent; border: 1px solid var(--border-hi); color: var(--muted); cursor: pointer; transition: 0.2s; }
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.05); }
+
+    /* Markdown Formatting */
+    .table-desc-block { background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.15); border-radius: 8px; padding: 20px; margin-bottom: 20px; line-height: 1.6; font-size: 14px; }
+    .table-desc-block h3 { margin-top: 15px; color: var(--accent); font-size: 16px; }
+    .table-view { width: 100%; border-collapse: collapse; }
+    .table-view th { text-align: left; padding: 12px; font-size: 11px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .table-view td { padding: 15px 12px; border-bottom: 1px solid rgba(28,31,43,0.4); vertical-align: top; }
+    .col-name { color: #7dd3fc; font-weight: 600; }
+    .col-desc { line-height: 1.5; font-size: 13px; }
+
+    .json-container { background: var(--bg); padding: 20px; border-radius: 8px; max-height: 500px; overflow: auto; border: 1px solid var(--border); }
+    pre { font-family: 'DM Mono', monospace; font-size: 12px; color: #34d399; white-space: pre-wrap; }
+
+    .theme-toggle { width: 38px; height: 38px; border-radius: 9px; border: 1px solid var(--border-hi); background: var(--surface); cursor: pointer; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <header class="header">
+    <div class="header-icon">📘</div>
+    <div class="header-title">Metadata Doc Generator</div>
+    <div class="header-right">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="card-header">Connection Target</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <input id="catalog" placeholder="Catalog" value="intelliegencedatacatalog"/>
+        <input id="schema" placeholder="Schema" value="pharma_sales"/>
+        <input id="table" placeholder="Table Name" value="fact_pharma_sales"/>
+      </div>
+      <div style="margin-top: 20px; display: flex; align-items: center; gap: 15px;">
+        <button class="btn btn-primary" id="generate-btn" onclick="generate()">
+          ⚡ <span id="btn-label">Generate Docs</span>
+        </button>
+        <span id="status-text" style="font-size: 11px; color: var(--muted);">Ready</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>Documentation Output</span>
+      <div class="view-controls" id="view-controls">
+        <div class="view-toggle">
+          <button class="vt-btn active" id="vt-table" onclick="setView('table')">TABLE</button>
+          <button class="vt-btn" id="vt-json" onclick="setView('json')">JSON</button>
+        </div>
+        <button class="action-btn" id="copy-btn" onclick="copyJSON()">Copy JSON</button>
+        <button class="action-btn" id="download-btn" onclick="downloadJSON()">Download .json</button>
+      </div>
+    </div>
+    <div class="card-body" id="output-area">
+      <div style="text-align:center; padding: 40px; color: var(--muted);">
+        Enter details above to generate documentation.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentData = null;
+  let currentView = 'table';
+
+  function toggleTheme() {
+    const root = document.documentElement;
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+  }
+
+  function setView(view) {
+    currentView = view;
+    document.getElementById('vt-table').classList.toggle('active', view === 'table');
+    document.getElementById('vt-json').classList.toggle('active', view === 'json');
+    render();
+  }
+
+  async function copyJSON() {
+    if (!currentData) return;
+    await navigator.clipboard.writeText(JSON.stringify(currentData, null, 2));
+    const btn = document.getElementById('copy-btn');
+    btn.innerText = "✓ Copied";
+    setTimeout(() => btn.innerText = "Copy JSON", 2000);
+  }
+
+  function downloadJSON() {
+    if (!currentData) return;
+    const blob = new Blob([JSON.stringify(currentData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${currentData.table.table_name}_docs.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function render() {
+    const area = document.getElementById('output-area');
+    if (!currentData) return;
+
+    if (currentView === 'json') {
+      area.innerHTML = `<div class="json-container"><pre>${JSON.stringify(currentData, null, 2)}</pre></div>`;
+    } else {
+      const t = currentData.table;
+      area.innerHTML = `
+        <div class="table-desc-block">
+          <div style="font-size: 10px; color: var(--accent); font-weight: 800; margin-bottom: 10px;">TABLE DESCRIPTION</div>
+          ${marked.parse(t.table_description || '')}
+        </div>
+        <table class="table-view">
+          <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            ${t.columns.map(c => `
+              <tr>
+                <td class="col-name">${c.column_name}</td>
+                <td class="col-type">${c.data_type}</td>
+                <td class="col-desc">${marked.parse(c.description || '')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }
+  }
+
+  async function generate() {
+    const catalog = document.getElementById('catalog').value;
+    const schema = document.getElementById('schema').value;
+    const table = document.getElementById('table').value;
+
+    document.getElementById('btn-label').innerText = "Generating...";
+    document.getElementById('status-text').innerText = "Running LLM Engine...";
+
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/generate?catalog=${catalog}&schema=${schema}&table=${table}`);
+      if (!res.ok) throw new Error("Server error or metadata not found");
+      
+      currentData = await res.json();
+      document.getElementById('view-controls').style.display = 'flex';
+      render();
+      document.getElementById('status-text').innerText = "Complete";
+    } catch (e) {
+      document.getElementById('output-area').innerHTML = `<div style="color:var(--error); text-align:center; padding:20px;">Error: ${e.message}</div>`;
+      document.getElementById('status-text').innerText = "Failed";
+    } finally {
+      document.getElementById('btn-label').innerText = "Generate Docs";
+    }
+  }
+</script>
+</body>
+</html>
